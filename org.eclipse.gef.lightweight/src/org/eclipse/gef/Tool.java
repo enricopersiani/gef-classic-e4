@@ -210,7 +210,7 @@ public interface Tool {
 	 *
 	 * @param domain The EditDomain to which this Tool belongs
 	 */
-	void setEditDomain(EditDomain domain);
+	void setEditDomain(LightweightEditDomain domain);
 
 	/**
 	 * Called to set the current Viewer receiving events. This method is rarely

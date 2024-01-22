@@ -103,6 +103,7 @@ public class ScrollingGraphicalViewer extends GraphicalViewerImpl {
 			finalLocation.y = Math.min(topLeft.y, Math.max(bottomRight.y, port.getViewLocation().y));
 		}
 
+		port.validate();
 		getFigureCanvas().scrollSmoothTo(finalLocation.x, finalLocation.y);
 	}
 

@@ -23,6 +23,15 @@
 	</properties>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>3.5.0</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<!-- enable tycho build extension -->
@@ -303,6 +312,7 @@
 	<modules>
 		<!--plug-ins-->
 		<module>org.eclipse.draw2d</module>
+		<module>org.eclipse.gef.lightweight</module>
 		<module>org.eclipse.gef</module>
 		<module>org.eclipse.zest.core</module>
 		<module>org.eclipse.zest.layouts</module>
@@ -330,6 +340,7 @@
 		
 	
 	<!--features-->
+		<module>org.eclipse.gef.lightweight-feature</module>
 		<module>org.eclipse.gef-feature</module>
 		<module>org.eclipse.draw2d-feature</module>
 		<module>org.eclipse.gef.examples-feature</module>

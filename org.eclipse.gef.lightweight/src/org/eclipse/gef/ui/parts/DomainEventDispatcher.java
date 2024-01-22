@@ -33,7 +33,7 @@ import org.eclipse.draw2d.SWTEventDispatcher;
 import org.eclipse.draw2d.geometry.Point;
 
 import org.eclipse.gef.AccessibleEditPart;
-import org.eclipse.gef.EditDomain;
+import org.eclipse.gef.LightweightEditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 
@@ -51,7 +51,7 @@ public class DomainEventDispatcher extends SWTEventDispatcher {
 	/**
 	 * The edit domain
 	 */
-	protected EditDomain domain;
+	protected LightweightEditDomain domain;
 	/**
 	 * The viewer on which this dispatcher is created.
 	 */
@@ -241,7 +241,7 @@ public class DomainEventDispatcher extends SWTEventDispatcher {
 	 * @param d the domain
 	 * @param v the viewer
 	 */
-	public DomainEventDispatcher(EditDomain d, EditPartViewer v) {
+	public DomainEventDispatcher(LightweightEditDomain d, EditPartViewer v) {
 		domain = d;
 		viewer = v;
 		setEnableKeyTraversal(false);

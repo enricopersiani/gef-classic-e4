@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
+   <feature id="org.eclipse.gef.lightweight">
+      <category name="gef"/>
+   </feature>
+   <feature id="org.eclipse.gef.lightweight.source">
+      <category name="gef"/>
+   </feature>
    <feature id="org.eclipse.gef">
       <category name="gef"/>
    </feature>

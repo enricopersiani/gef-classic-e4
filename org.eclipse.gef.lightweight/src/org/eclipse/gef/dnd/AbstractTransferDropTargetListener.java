@@ -396,10 +396,13 @@ public abstract class AbstractTransferDropTargetListener implements TransferDrop
 	 */
 	@Override
 	public boolean isEnabled(DropTargetEvent event) {
-		for (TransferData dataType : event.dataTypes) {
-			if (getTransfer().isSupportedType(dataType)) {
+		if (viewer.getEditDomain().isDisabled())
+			return false;
+
+		for (int i = 0; i < event.dataTypes.length; i++) {
+			if (getTransfer().isSupportedType(event.dataTypes[i])) {
 				setCurrentEvent(event);
-				event.currentDataType = dataType;
+				event.currentDataType = event.dataTypes[i];
 				updateTargetRequest();
 				EditPart oldTarget = target;
 				updateTargetEditPart();

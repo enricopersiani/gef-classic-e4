@@ -129,10 +129,17 @@ public class SelectEditPartTracker extends TargetingTool implements DragTracker 
 			if (button == 1 && getSourceEditPart().getSelected() != EditPart.SELECTED_NONE) {
 				getCurrentViewer().reveal(getSourceEditPart());
 			}
+			if (getSourceEditPart().getSelected() != EditPart.SELECTED_NONE)
+				buttonUpReveal(button);
 			setState(STATE_TERMINAL);
 			return true;
 		}
 		return false;
+	}
+
+	protected void buttonUpReveal(int button) {
+		if (button == 1)
+			getCurrentViewer().reveal(getSourceEditPart());
 	}
 
 	/**

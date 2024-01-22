@@ -46,8 +46,8 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 
+import org.eclipse.gef.LightweightEditDomain;
 import org.eclipse.gef.AccessibleEditPart;
-import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 import org.eclipse.gef.EditPartViewer;
@@ -102,7 +102,7 @@ public abstract class AbstractEditPartViewer implements EditPartViewer {
 	private Map<String, Object> properties;
 	private Control control;
 	private ResourceManager resources;
-	private EditDomain domain;
+	private LightweightEditDomain domain;
 	private RootEditPart rootEditPart;
 	private MenuManager contextMenu;
 
@@ -197,7 +197,10 @@ public abstract class AbstractEditPartViewer implements EditPartViewer {
 	 */
 	@Override
 	public void appendSelection(EditPart editpart) {
-		selectionModel.appendSelection(editpart);
+		appendSelection(editpart, true);
+	}
+	public void appendSelection(EditPart editpart, boolean propagate) {
+		selectionModel.appendSelection(editpart, propagate);
 	}
 
 	/**
@@ -220,6 +223,10 @@ public abstract class AbstractEditPartViewer implements EditPartViewer {
 	@Override
 	public void deselectAll() {
 		selectionModel.deselectAll();
+		deselectAll(true);
+	}
+	public void deselectAll(boolean propagate) {
+		selectionModel.deselectAll(propagate);
 	}
 
 	/**
@@ -338,7 +345,7 @@ public abstract class AbstractEditPartViewer implements EditPartViewer {
 	 * @see EditPartViewer#getEditDomain()
 	 */
 	@Override
-	public EditDomain getEditDomain() {
+	public LightweightEditDomain getEditDomain() {
 		return domain;
 	}
 
@@ -627,12 +634,16 @@ public abstract class AbstractEditPartViewer implements EditPartViewer {
 	 */
 	@Override
 	public void select(EditPart editpart) {
+		select(editpart, true);
+	}
+	public void select(EditPart editpart, boolean propagate) {
 		// If selection isn't changing, do nothing.
 		if ((getSelectedEditParts().size() == 1) && (getSelectedEditParts().get(0) == editpart)) {
 			return;
 		}
 		primDeselectAll();
 		appendSelection(editpart); // fireSelectionChanged() is called here
+		appendSelection(editpart, propagate); // fireSelectionChanged() is called here
 	}
 
 	/**
@@ -725,7 +736,7 @@ public abstract class AbstractEditPartViewer implements EditPartViewer {
 	 * @see EditPartViewer#setEditDomain(EditDomain)
 	 */
 	@Override
-	public void setEditDomain(EditDomain editdomain) {
+	public void setEditDomain(LightweightEditDomain editdomain) {
 		this.domain = editdomain;
 	}
 
@@ -807,7 +818,11 @@ public abstract class AbstractEditPartViewer implements EditPartViewer {
 	 */
 	@Override
 	public void setSelection(ISelection newSelection) {
-		selectionModel.setSelection(newSelection);
+		setSelection(newSelection, true);
+	}
+
+	public void setSelection(ISelection newSelection, boolean propagate) {
+		selectionModel.setSelection(newSelection, propagate);
 	}
 
 	/**

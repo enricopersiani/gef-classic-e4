@@ -40,7 +40,7 @@ import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.geometry.Point;
 
 import org.eclipse.gef.AccessibleEditPart;
-import org.eclipse.gef.EditDomain;
+import org.eclipse.gef.LightweightEditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ExposeHelper;
@@ -402,15 +402,17 @@ public class GraphicalViewerImpl extends AbstractEditPartViewer implements Graph
 	}
 
 	/**
-	 * @see org.eclipse.gef.EditPartViewer#setEditDomain(org.eclipse.gef.EditDomain)
+	 * @see org.eclipse.gef.EditPartViewer#setEditDomain(org.eclipse.gef.LightweightEditDomain)
 	 */
 	@Override
-	public void setEditDomain(EditDomain domain) {
+	public void setEditDomain(LightweightEditDomain domain) {
 		super.setEditDomain(domain);
 		// Set the new event dispatcher, even if the new domain is null. This
 		// will dispose
 		// the old event dispatcher.
 		getLightweightSystem().setEventDispatcher(eventDispatcher = new DomainEventDispatcher(domain, this));
+		getLightweightSystem().setDisabled(domain != null && domain.isDisabled());
+		getControl().redraw();
 	}
 
 	/**
