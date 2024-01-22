@@ -12,13 +12,12 @@
  *******************************************************************************/
 package org.eclipse.gef.internal;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.gef.resources.GEFResources;
+import org.eclipse.jface.resource.ImageDescriptor;
 
 public class InternalImages {
 
@@ -127,7 +126,7 @@ public class InternalImages {
 		DESC_VERT_ALIGN_TOP_DIS = createDescriptor("icons/aligntop_d.gif"); //$NON-NLS-1$
 
 		DESC_SEPARATOR = createDescriptor("icons/separator.gif"); //$NON-NLS-1$
-		DESC_FOLDER_OPEN = PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJ_FOLDER);
+		DESC_FOLDER_OPEN = GEFResources.getInstance().getFolderImage();
 		DESC_FOLDER_CLOSED = createDescriptor("icons/folder_closed.gif"); //$NON-NLS-1$
 
 		ICON_MATCH_WIDTH = createDescriptor("icons/sizehz.gif"); //$NON-NLS-1$
@@ -153,7 +152,7 @@ public class InternalImages {
 	 */
 	private static ImageDescriptor createAndCache(String imageName) {
 		ImageDescriptor result = createDescriptor(imageName);
-		InternalGEFPlugin.getDefault().getImageRegistry().put(imageName, result);
+		GEFResources.getInstance().getImageRegistry().put(imageName, result);
 		return result;
 	}
 
@@ -171,7 +170,7 @@ public class InternalImages {
 		if (image != null) {
 			return image;
 		}
-		return InternalGEFPlugin.getDefault().getImageRegistry().get(imageName);
+		return GEFResources.getInstance().getImageRegistry().get(imageName);
 	}
 
 	public static void set(String imageName, Image image) {

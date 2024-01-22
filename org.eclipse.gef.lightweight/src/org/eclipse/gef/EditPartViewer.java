@@ -146,6 +146,7 @@ public interface EditPartViewer extends org.eclipse.jface.viewers.ISelectionProv
 	 * @param editpart the EditPart to append
 	 */
 	void appendSelection(EditPart editpart);
+	void appendSelection(EditPart editpart, boolean propagate);
 
 	/**
 	 * Optionally creates the default {@link org.eclipse.swt.widgets.Control
@@ -256,7 +257,7 @@ public interface EditPartViewer extends org.eclipse.jface.viewers.ISelectionProv
 	 *
 	 * @return the viewer's EditDomain
 	 */
-	EditDomain getEditDomain();
+	LightweightEditDomain getEditDomain();
 
 	/**
 	 * Returns the <code>EditPartFactory</code> for this viewer. The EditPartFactory
@@ -390,6 +391,7 @@ public interface EditPartViewer extends org.eclipse.jface.viewers.ISelectionProv
 	 */
 	SelectionManager getSelectionManager();
 
+	void setSelection(ISelection newSelection, boolean propagate);
 	/**
 	 * Returns the {@link Map} for associating <i>visual parts</i> with their
 	 * <code>EditParts</code>. This map is used for hit-testing. Hit testing is
@@ -471,6 +473,7 @@ public interface EditPartViewer extends org.eclipse.jface.viewers.ISelectionProv
 	 * @param editpart the new selection
 	 */
 	void select(EditPart editpart);
+	void select(EditPart editpart, boolean propagate);
 
 	/**
 	 * Sets the contents for this Viewer. The contents can also be set using
@@ -524,7 +527,7 @@ public interface EditPartViewer extends org.eclipse.jface.viewers.ISelectionProv
 	 *
 	 * @param domain The EditDomain
 	 */
-	void setEditDomain(EditDomain domain);
+	void setEditDomain(LightweightEditDomain domain);
 
 	/**
 	 * Sets the EditPartFactory.

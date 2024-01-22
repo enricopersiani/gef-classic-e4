@@ -20,11 +20,10 @@ import java.util.List;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.EditDomain;
+
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.LightweightEditDomain;
 import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.commands.CommandStackEvent;
-import org.eclipse.gef.commands.CommandStackEventListener;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -47,6 +46,7 @@ public class GraphicalTextViewer extends ScrollingGraphicalViewer {
 	 * @deprecated in 3.2. @TODO:Pratik remove this method and all references to it.
 	 *             Use getSelectionModel() instead.
 	 */
+	@Deprecated
 	public SelectionRange getSelectionRange() {
 		if (selectionModel != null)
 			return selectionModel.getSelectionRange();
@@ -88,6 +88,7 @@ public class GraphicalTextViewer extends ScrollingGraphicalViewer {
 	 * @deprecated in 3.2. @TODO:Pratik remove this method and all references to it.
 	 *             Use setSelectionModel() instead.
 	 */
+	@Deprecated
 	public void setSelectionRange(SelectionRange newRange) {
 		// @TODO:Pratik change all these setSelection() methods so that they
 		// don't affect
@@ -153,21 +154,20 @@ public class GraphicalTextViewer extends ScrollingGraphicalViewer {
 	// this automatically.
 	// You can make that change once you remove the GraphicalTextViewer class.
 	@Override
-	public void setEditDomain(EditDomain domain) {
+	public void setEditDomain(LightweightEditDomain domain) {
 		super.setEditDomain(domain);
-		getEditDomain().getCommandStack().addCommandStackEventListener(new CommandStackEventListener() {
-			@Override
-			public void stackChanged(CommandStackEvent event) {
-				if (!(event.getCommand() instanceof TextCommand) || getSelectionRange() == null)
-					return;
-				TextCommand command = (TextCommand) event.getCommand();
-				if (command != null) {
-					if (event.getDetail() == CommandStack.POST_EXECUTE)
-						setSelectionRange(command.getExecuteSelectionRange(GraphicalTextViewer.this));
-					else if (event.getDetail() == CommandStack.POST_REDO)
-						setSelectionRange(command.getRedoSelectionRange(GraphicalTextViewer.this));
-					else if (event.getDetail() == CommandStack.POST_UNDO)
-						setSelectionRange(command.getUndoSelectionRange(GraphicalTextViewer.this));
+		getEditDomain().getCommandStack().addCommandStackEventListener(event -> {
+			if (!(event.getCommand() instanceof TextCommand) || getSelectionRange() == null) {
+				return;
+			}
+			TextCommand command = (TextCommand) event.getCommand();
+			if (command != null) {
+				if (event.getDetail() == CommandStack.POST_EXECUTE) {
+					setSelectionRange(command.getExecuteSelectionRange(GraphicalTextViewer.this));
+				} else if (event.getDetail() == CommandStack.POST_REDO) {
+					setSelectionRange(command.getRedoSelectionRange(GraphicalTextViewer.this));
+				} else if (event.getDetail() == CommandStack.POST_UNDO) {
+					setSelectionRange(command.getUndoSelectionRange(GraphicalTextViewer.this));
 				}
 			}
 		});
@@ -210,6 +210,7 @@ public class GraphicalTextViewer extends ScrollingGraphicalViewer {
 	 * @deprecated
 	 * @see org.eclipse.gef.ui.parts.AbstractEditPartViewer#primGetSelectedEditParts()
 	 */
+	@Deprecated
 	@Override
 	protected List<EditPart> primGetSelectedEditParts() {
 		if (selectionModel != null)

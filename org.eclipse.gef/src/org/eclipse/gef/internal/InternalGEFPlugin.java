@@ -13,8 +13,11 @@
 
 package org.eclipse.gef.internal;
 
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.widgets.Display;
+
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
@@ -22,6 +25,8 @@ import org.eclipse.draw2d.BasicColorProvider;
 import org.eclipse.draw2d.ColorProvider;
 
 import org.eclipse.gef.GEFColorProvider;
+import org.eclipse.gef.resources.GEFResources;
+import org.eclipse.gef.resources.IImageDescriptorFactory;
 
 import org.osgi.framework.BundleContext;
 
@@ -43,6 +48,33 @@ public class InternalGEFPlugin extends AbstractUIPlugin {
 			&& PlatformUI.isWorkbenchRunning() && !PlatformUI.getWorkbench().isClosing()) {
 			ColorProvider.SystemColorFactory.setColorProvider(new GEFColorProvider());
 		}
+
+		// skip GEF resources initialization in headless mode
+		if (Display.getCurrent() == null) {
+			return;
+		}
+
+		GEFResources.getInstance().setImageRegistry(getImageRegistry());
+		IImageDescriptorFactory factory = new IImageDescriptorFactory() {
+			@Override
+			public ImageDescriptor createFolder() {
+				ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+				return sharedImages.getImageDescriptor(ISharedImages.IMG_OBJ_FOLDER);
+			}
+
+			@Override
+			public ImageDescriptor createDeleteDisabled() {
+				ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+				return sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE);
+			}
+
+			@Override
+			public ImageDescriptor createDelete() {
+				ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+				return sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE_DISABLED);
+			}
+		};
+		GEFResources.getInstance().setImageDescriptorFactory(factory);
 	}
 
 	@Override

@@ -37,6 +37,7 @@ import org.eclipse.draw2d.geometry.Point;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.LightweightEditDomain;
 import org.eclipse.gef.TreeEditPart;
 import org.eclipse.gef.editparts.RootTreeEditPart;
 
@@ -253,6 +254,11 @@ public class TreeViewer extends AbstractEditPartViewer {
 				.map(TreeItem.class::cast) //
 				.toArray(TreeItem[]::new); //
 		getControl().setSelection(treeItems);
+	}
+
+	public void setEditDomain(LightweightEditDomain editdomain) {
+		super.setEditDomain(editdomain);
+		getControl().setEnabled(editdomain == null || !editdomain.isDisabled());
 	}
 
 	/**
